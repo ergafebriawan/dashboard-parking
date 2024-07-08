@@ -3,15 +3,34 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class OperationalController extends Controller
 {
-    public function PendapatanPerTanggal() {
-        return view('operational.pendapatan_pertanggal');
+    public function PendapatanPerTanggal(Request $request) {
+        if($request->has('filter')){
+            $lokasi = $request->input('lokasi');
+            $tanggal_awal = date("Y-m-d", strtotime($request->input('from_date')));
+            $tanggal_akhir = date("Y-m-d", strtotime($request->input('to_date')));
+            $data = DB::table('t_rekap_dx')
+                ->where('lokasi', $lokasi)
+                ->whereBetween('tgl', [$tanggal_awal, $tanggal_akhir])
+                ->paginate(10);
+            return view('operational.pendapatan_pertanggal', ['rekap' => $data]);
+        }else{
+            $data = DB::table('t_rekap_dx')->paginate(10);
+            return view('operational.pendapatan_pertanggal', ['rekap' => $data]);
+        }
+    }
+
+    public function ExportPendapatanPerTanggal(){
+        
     }
 
     public function HistoryStatlement() {
-        return view('operational.history_statlement');
+        $data = DB::table('thistori_setle')->paginate(10);
+        // dd($data);
+        return view('operational.history_statlement', ['history' => $data]);
     }
 
     public function PendapatanSummary() {
@@ -19,10 +38,12 @@ class OperationalController extends Controller
     }
 
     public function TransaksiKendaraanMasuk() {
-        return view('operational.transaksi_kendaraan_masuk');
+        $data = DB::table('t_kendaraanmasuk')->paginate(10);
+        return view('operational.transaksi_kendaraan_masuk', ['masuk' => $data]);
     }
 
     public function TransaksiKendaraanKeluar() {
-        return view('operational.transaksi_kendaraan_keluar');
+        $data = DB::table('t_kendaraankeluar')->paginate(10);
+        return view('operational.transaksi_kendaraan_keluar', ['keluar' => $data]);
     }
 }
