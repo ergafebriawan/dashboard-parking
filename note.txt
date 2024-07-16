@@ -1,0 +1,26 @@
+tabel lokasi m_lokasi
+
+DASHBOARD
+    - DASHBOARD PENDAPATAN PARKIR
+    dari table t_setorankasir
+    Pendapatan Parkir = Pendapatan casual + pendapatan member
+    Pendapatan casual = jumlah_setoran_tunai
+    pendapatan member = jumlah_setoran_kredit
+    per bulan
+    per tempat
+
+    - DASHBOARD MEMBERSHIP
+    dari tabel m_member
+    jumlah member = m_member
+
+    - DASHBOARD VOLUME
+    dari tabel
+
+    - DASHBOARD REALTIME
+    dari tabel t_parkir
+
+    - DASHBOARD SLIDE
+    sama dengan DASHBOARD PENDAPATAN PARKIR
+
+HAK AKSES
+mengambil dari m_hakakses
